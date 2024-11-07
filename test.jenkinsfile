@@ -28,6 +28,17 @@ pipeline {
                     sh 'docker build -t calculator-app-image .'
             }
         }
+
+         stage('Push artifact') {
+            steps {
+                script {
+                        def imageName = 'timvanvuchelen05/calculator-app-image'
+                        sh 'docker tag calculator-app-image ${imageName}'
+                        sh 'docker push ${imageName}'
+                    }
+                }
+            }
+        }
         
     }
 }
