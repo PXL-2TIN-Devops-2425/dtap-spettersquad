@@ -23,10 +23,11 @@ pipeline {
                 sh 'npm install'
             }
         }
-
-        steps {
+         stage('Build artifact') {
+            steps {
                     sh "docker build -t ${calculator-app}:${latest} ."
-                }
             }
+        }
+        
     }
 }
