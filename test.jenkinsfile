@@ -32,13 +32,21 @@ pipeline {
          stage('Push artifact') {
             steps {
                 script {
-                        def imageName = 'timvanvuchelen05/calculator-app-image'
-                        sh 'docker tag calculator-app-image ${imageName}'
-                        sh 'docker push ${imageName}'
+                        sh 'docker tag calculator-app-image timvanvuchelen05/calculator-app-image'
+                        sh 'docker push timvanvuchelen05/calculator-app-image'
                     }
+                }
+        }
+
+        stage('deployment') {
+            steps {
+                script {
+                    sh 'docker stop calculator-app || true'
+                    sh 'docker rm calculator-app || true'
+                    sh 'docker run -d --name calculator-app -p 3000:3000 timvanvuchelen05/calculator-app-image'
                 }
             }
         }
-        
+ 
     }
 }
