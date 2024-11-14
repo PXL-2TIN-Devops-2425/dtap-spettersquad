@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'timvanvuchelen05/calculator-app-image:latest'
         REMOTE_SERVER = 'ubuntu@54.174.8.129'
-        SSH_CREDENTIALS_ID = 'Spettersquad' // Vervang dit door de juiste credentials ID
+        SSH_CREDENTIALS_ID = 'Spettersquad'
     }
     stages {
         stage('dtap production') {
@@ -30,12 +30,12 @@ pipeline {
                 sh "curl 'http://54.174.8.129'"
             }
         }
-        post {
+    }
+    post {
             cleanup {
                 sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
                     sh "ssh ${REMOTE_SERVER} 'docker stop app || true && docker rm app || true'"
                 }
             }
-        }
     }
 }
