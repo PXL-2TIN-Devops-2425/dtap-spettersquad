@@ -2,9 +2,10 @@ Vul onderstaande aan met de antwoorden op de vragen uit de readme.md file. Wil j
 opmaak met Markdown.
 
 a)
-  first, we did these commands to make sure docker has the correct rights
+  eerst hebben we ervoor gezorgd dat de jenkins user de juiste rechten krijgt:
   ![docker_rights](/images/Changing_rights_docker.png)
 
-  after that we added docker credentials in jenkins
+  daanra hebben we docker credentials toegevoegd in jenkins:
   ![docker_rights](/images/Adding_docker_creds.png)
+  
 b)
