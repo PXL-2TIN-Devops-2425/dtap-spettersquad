@@ -1,9 +1,9 @@
 pipeline {
     agent any
     environment {
-        DOCKER_IMAGE = 'jouwdockeraccount/jouwimage:laatsteversie'
-        REMOTE_SERVER = 'user@remote-server-ip'
-        SSH_CREDENTIALS_ID = 'ssh-credentials-id' // Vervang dit door de juiste credentials ID
+        DOCKER_IMAGE = 'timvanvuchelen05/calculator-app-image:latest'
+        REMOTE_SERVER = 'ubuntu@54.174.8.129'
+        SSH_CREDENTIALS_ID = 'Spettersquad' // Vervang dit door de juiste credentials ID
     }
     stages {
         stage('dtap production') {
@@ -13,10 +13,7 @@ pipeline {
         }
         stage('deploy prod') {
             steps{
-                sh "docker pull $IMAGE_NAME"
-                sh "docker stop $CONTAINER_NAME || true"
-                sh "docker rm $CONTAINER_NAME || true"
-                sh "docker run -d --name $CONTAINER_NAME -p 80:80 $IMAGE_NAME"
+                sh "docker pull ${DOCKER_IMAGE}"
             }
         }
         stage('start prod'){
@@ -30,7 +27,7 @@ pipeline {
         }
         stage('test prod'){
             steps{
-                sh "curl "http://productieserver_IP"
+                sh "curl 'http://54.174.8.129'"
             }
         }
         post {
