@@ -32,8 +32,11 @@ pipeline {
          stage('Push artifact') {
             steps {
                 script {
-                        sh 'docker tag calculator-app-image timvanvuchelen05/calculator-app-image'
-                        sh 'docker push timvanvuchelen05/calculator-app-image'
+                        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                            sh 'echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin'
+                            sh 'docker tag calculator-app-image timvanvuchelen05/calculator-app-image'
+                            sh 'docker push timvanvuchelen05/calculator-app-image'
+                        }
                     }
                 }
         }
