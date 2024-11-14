@@ -1,10 +1,19 @@
 pipeline {
     agent any
+
+    docker {
+        image 'docker:latest'
+        args '-v /var/run/docker.sock:/var/run/docker.sock'
+    }
+
+    tools {
+        nodejs 'TINnode-devops'
+    }
   
     stages {
         stage ('cleanup'){
             steps{
-                // TODO
+                deleteDir()
             }
         }
         stage('fetch app code') {
@@ -13,5 +22,42 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/PXL-2TIN-DevOps-Resources/calculator-app-finished.git'
             }
         }
+
+         stage('Install dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+         stage('Build artifact') {
+            steps {
+                    sh 'docker build -t calculator-app-image .'
+            }
+        }
+
+         stage('Push artifact') {
+            steps {
+                script {
+                        sh 'docker tag calculator-app-image timvanvuchelen05/calculator-app-image'
+                        sh 'docker push timvanvuchelen05/calculator-app-image'
+                    }
+                }
+        }
+
+        stage('deployment') {
+            steps {
+                script {
+                    sh 'docker stop calculator-app || true'
+                    sh 'docker rm calculator-app || true'
+                    sh 'docker run -d --name calculator-app -p 3000:3000 timvanvuchelen05/calculator-app-image'
+                }
+            }
+        }
+    }
+
+     post {
+        always {
+           sh 'rm -rf *'
+        }
     }
 }
+
