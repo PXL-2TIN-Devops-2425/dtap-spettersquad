@@ -18,7 +18,6 @@ pipeline {
         stage('start prod'){
             steps{
                 sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
-                    sh "docker rm -f -v \$(docker container ls -a -q)"
                     sh "ssh-keyscan -H 54.174.8.129 >> ~/.ssh/known_hosts"
                     sh "docker run -d --name app -p 80:80 ${DOCKER_IMAGE}"
                     
