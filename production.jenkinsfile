@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
         DOCKER_IMAGE = 'timvanvuchelen05/calculator-app-image:latest'
-        REMOTE_SERVER = 'ubuntu@54.174.8.129'
         SSH_CREDENTIALS_ID = 'Spettersquad'
     }
     stages {
