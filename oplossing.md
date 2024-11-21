@@ -7,5 +7,13 @@ a)
 
   daanra hebben we docker credentials toegevoegd in jenkins:
   ![docker_rights](/images/Adding_docker_creds.png)
+
+  Uiteindelijk krijgen we SUCCES terug na het runnen van de pipeline:
+  ![test pipeline succes](/images/dtap_test_pipeline_succes)
   
 b)
+  curl succesvol bij het runnen van de pipeline:
+  ![product_pipeline_curl_succes](/images/dtap_prod_pipeline_curl_succes)
+
+  uiteindelijk krijgen we ook bij deze pipeline SUCCES terug:
+  ![product_pipeline_succes](/images/dtap_prod_pipeline_succes)
