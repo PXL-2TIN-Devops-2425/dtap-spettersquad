@@ -19,7 +19,7 @@ pipeline {
             steps{
                 sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
                     sh "ssh-keyscan -H 18.215.245.213 >> ~/.ssh/known_hosts"
-                    sh "docker run -d --name app -p 80:80 ${DOCKER_IMAGE}"
+                    sh "docker run -d --name app -p 3000:80 ${DOCKER_IMAGE}"
                 }
             }
         }
