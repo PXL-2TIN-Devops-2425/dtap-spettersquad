@@ -13,7 +13,7 @@ a)
   
 b)
   curl succesvol bij het runnen van de pipeline:
-  ![product_pipeline_curl_succes](/images/dtap_prod_pipeline_curl_succes.png)
+  ![product_pipeline_curl_succes](/images/dtap_prod_pipeline_curl_succes_new.png)
 
   uiteindelijk krijgen we ook bij deze pipeline SUCCES terug:
   ![product_pipeline_succes](/images/dtap_prod_pipeline_succes.png)
