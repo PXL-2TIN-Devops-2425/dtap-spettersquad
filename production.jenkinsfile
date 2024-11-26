@@ -1,10 +1,52 @@
 pipeline {
     agent any
+    environment {
+        DOCKER_IMAGE = 'timvanvuchelen05/calculator-app-image:latest'
+        SSH_CREDENTIALS_ID = 'Spettersquad'
+    }
     stages {
+        stage ('cleanup') {
+            steps {
+                sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
+                    sh '''
+                    containers=$(docker container ls -a -q)
+                    if [ -n "$containers" ]; then
+                        docker rm -f -v $containers
+                    fi
+                    '''
+                    //sh "docker rm -f -v \$(docker container ls -a -q)"
+                }
+            }
+        }
         stage('dtap production') {
             steps {
                 echo "good luck..."
             }
         }
+        stage('deploy prod') {
+            steps{
+                sh "docker pull ${DOCKER_IMAGE}"
+            }
+        }
+        stage('start prod'){
+            steps{
+                sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
+                    sh "ssh-keyscan -H 54.81.183.244 >> ~/.ssh/known_hosts"
+                    sh "docker run -d --name app -p 80:80 ${DOCKER_IMAGE}"
+                }
+            }
+        }
+        stage('test prod'){
+            steps{
+                sh "curl 'http://54.81.183.244'"
+            }
+        }
+    }
+    post {
+            cleanup {
+                sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
+                    sh "docker rm -f -v \$(docker container ls -a -q)"
+                }
+            }
     }
 }
