@@ -24,14 +24,14 @@ pipeline {
         stage('start prod'){
             steps{
                 sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
-                    sh "ssh-keyscan -H 18.215.245.213 >> ~/.ssh/known_hosts"
+                    sh "ssh-keyscan -H 54.81.183.244 >> ~/.ssh/known_hosts"
                     sh "docker run -d --name app -p 80:80 ${DOCKER_IMAGE}"
                 }
             }
         }
         stage('test prod'){
             steps{
-                sh "curl 'http://18.215.245.213'"
+                sh "curl 'http://54.81.183.244'"
             }
         }
     }
