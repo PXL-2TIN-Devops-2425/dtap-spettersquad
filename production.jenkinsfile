@@ -8,7 +8,13 @@ pipeline {
         stage ('cleanup') {
             steps {
                 sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
-                    sh "docker rm -f -v \$(docker container ls -a -q)"
+                    sh '''
+                    containers=$(docker container ls -a -q)
+                    if [ -n "$containers" ]; then
+                        docker rm -f -v $containers
+                    fi
+                    '''
+                    //sh "docker rm -f -v \$(docker container ls -a -q)"
                 }
             }
         }
