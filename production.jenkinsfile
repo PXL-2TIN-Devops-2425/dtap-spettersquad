@@ -5,6 +5,12 @@ pipeline {
         SSH_CREDENTIALS_ID = 'Spettersquad'
     }
     stages {
+        stage ('cleanup'){
+            steps{
+                sshagent(credentials: ["${SSH_CREDENTIALS_ID}"]) {
+                    sh "docker rm -f -v \$(docker container ls -a -q)"
+            }
+        }
         stage('dtap production') {
             steps {
                 echo "good luck..."
